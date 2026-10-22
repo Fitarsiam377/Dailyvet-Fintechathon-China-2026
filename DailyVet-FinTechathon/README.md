@@ -3,7 +3,6 @@
 Submitted for: 2026 Shenzhen International FinTech Competition (FinTechathon)
 Theme: AI as a Financial Participant
 Selected Topics: 
-- Topic D: Insurance Assistant (Parametric Livestock Insurance & Claims)
 - Topic E: SME Finance Copilot (Farm Cashflow & Credit Readiness)
 
 Live Demo Link: https: https://dailyvet.vercel.app/
