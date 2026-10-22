@@ -57,15 +57,11 @@ Payments: Manual bKash/Nagad integration (Merchant flow)
 
 ## How to Run the Project Locally
 
-If you have downloaded the ZIP file or cloned the GitHub repository, follow these steps:
+Step 1: Extract the ZIP (or clone the repo).
+API keys: end users and judges need no key. On the live demo, AI requests go through the project's server-side proxy (/api/ai-proxy), which holds the keys. Only a self-hosting developer sets keys: as environment variables on Netlify/Vercel (GEMINI_KEY_*, GROQ_KEY_*, OPENROUTER_KEY_*, FIREBASE_SERVICE_KEY), or in the js/ key arrays for localhost testing. Never commit real keys.
 
-Step 1: Download and Extract (If using ZIP). If you downloaded the ZIP file, extract/unzip it to a folder on your local machine. If you cloned the GitHub repository, skip this step.
-
-Step 2: Add your API Keys. To test the AI and mapping features, you must add your own API keys. Open the following files and replace the placeholder "YOUR_API_KEY_HERE" with your actual keys:
-js/ai.js (Gemini, Groq keys)
-js/insurance.js (Gemini keys)
-js/finance-copilot.js (Groq key)
-js/locationiq-service.js (LocationIQ key)
+Step 2: Firebase: create a project, enable Authentication (Anonymous) and Firestore, and paste the config into js/firebase-config.js.
+Serve: npx serve . (or VS Code Live Server).
 
 Step 3: Set up Firebase. Create a Firebase project at console.firebase.google.com. Enable Authentication (Anonymous) and Firestore Database. Copy your Firebase config and paste it into js/firebase-config.js.
 
@@ -85,11 +81,24 @@ Step 4: SME Cashflow (Topic E). Navigate to Finance Copilot. Use the microphone 
 
 Step 5: Check Cashflow Forecast. Go to Cashflow Forecast to see how NASA weather risks impact the farm's future income.
 
-## Security Note
+DailyVet is a competition prototype; no real money moves (payments and payouts run in demo mode).
 
-API keys have been removed from this repository for security reasons. The app uses client-side key rotation, but for a production environment, a backend proxy (e.g., Netlify Functions or Node.js) is recommended to protect the keys.
+In place: AI calls on the deployed site go through a server-side proxy, so users never see or enter an API key. Passwords are stored as salted SHA-256 hashes. Deployment sets HSTS, X-Frame-Options, nosniff, Referrer-Policy, and Permissions-Policy headers.
 
-## Team
+Security Note : 
+
+DailyVet is a competition prototype; no real money moves (payments and payouts run in demo mode).
+
+In place: AI calls on the deployed site go through a server-side proxy, so users never see or enter an API key. Passwords are stored as salted SHA-256 hashes. Deployment sets HSTS, X-Frame-Options, nosniff, Referrer-Policy, and Permissions-Policy headers.
+
+Not yet production-ready:
+
+The proxy is wired into js/ai.js only; other AI modules still call providers from the browser, and the proxy has no caller authentication, rate limit, or origin restriction.
+Login and password reset run client-side against Firestore with no OTP, and no firestore.rules file is shipped.
+Payment and payout functions are unauthenticated demo handlers.
+No Content-Security-Policy; several pages render with innerHTML.
+
+Before production: rotate all keys, route every AI call through an authenticated proxy, use Firebase Phone Auth with strict Firestore rules, verify and recompute amounts server-side, and add CSP and output escaping.
 
 Team Name: TechsparkBD
 Team Leader: Al Fitar Ahmed Siam 
