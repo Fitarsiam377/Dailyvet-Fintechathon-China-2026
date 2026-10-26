@@ -5,7 +5,7 @@ Theme: AI as a Financial Participant
 Selected Topics: 
 - Topic E: SME Finance Copilot (Farm Cashflow & Credit Readiness)
 
-Live Demo Link: https://dailyvetfinance.vercel.app/
+Live Demo Link: https://dailyvet.vercel.app/
 
 ## Overview
 
